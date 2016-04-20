@@ -83,12 +83,17 @@ module RunitCookbook
 
     def wait_for_service
       unless inside_docker?
-        `mkfifo #{service_dir_name}/supervise/ok -m 0600` unless ::FileTest.pipe?("#{service_dir_name}/supervise/ok")
+        mk_fifo("#{service_dir_name}/supervise/ok") unless ::FileTest.pipe?("#{service_dir_name}/supervise/ok")
 
         if new_resource.log
-          `mkfifo #{service_dir_name}/supervise/ok -m 0600` unless ::FileTest.pipe?("#{service_dir_name}/log/supervise/ok")
+          mk_fifo("#{service_dir_name}/log/supervise/ok") unless ::FileTest.pipe?("#{service_dir_name}/log/supervise/ok")
         end
       end
+    end
+
+    def mk_fifo(path, mode = '0600')
+      ::FileUtils.mkdir_p(File.dirname(path))
+      `mkfifo #{path} -m #{mode}`
     end
 
     def runit_sv_works?
