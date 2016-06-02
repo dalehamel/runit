@@ -15,6 +15,7 @@ end
 group :integration do
   gem 'test-kitchen', '~> 1.4'
   gem 'kitchen-vagrant', '~> 0.19'
+  gem 'kitchen-docker', '~> 2.4'
 end
 
 group :librarian do

@@ -1,0 +1,47 @@
+driver:
+  name: docker
+  use_sudo: false              # this depends if you need to do `sudo` to run `docker` command or not
+  disable_upstart: false
+  run_command: /sbin/init
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-5.11
+    run_list:
+    - recipe[yum-epel]
+  - name: centos-6.7
+    run_list:
+    - recipe[yum-epel]
+#  - name: centos-7.1
+#    driver_config:
+#      image: sbernard/centos-systemd-kitchen
+  - name: debian-7.8
+    run_list: apt::default
+#  - name: debian-8.1
+#    run_list: apt::default
+#    driver_config:
+#      image: dictanova/docker-debian-kitchen:jessie
+#  - name: fedora-21
+#    driver_config:
+#      image: quay.io/getpantheon/fedora-test-kitchen:21
+  - name: ubuntu-12.04
+    run_list: apt::default
+    driver_config:
+      image: ubuntu-upstart:14.04
+  - name: ubuntu-14.04
+    run_list: apt::default
+    driver_config:
+      image: ubuntu-upstart:14.04
+
+suites:
+- name: default
+  run_list:
+  - recipe[runit_test]
+  attributes: {}
+
+- name: service
+  run_list:
+  - recipe[runit_test::service]
+  attributes: {}
