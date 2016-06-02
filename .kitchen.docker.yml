@@ -8,24 +8,29 @@ provisioner:
   name: chef_zero
 
 platforms:
-#  - name: centos-5.11
-#    run_list:
-#    - recipe[yum-epel]
+  - name: centos-5.11
+    run_list:
+    - recipe[yum-epel]
   - name: centos-6.7
     run_list:
     - recipe[yum-epel]
-#  - name: centos-7.1
-#    driver_config:
-#      image: sbernard/centos-systemd-kitchen
-#  - name: debian-7.8
-#    run_list: apt::default
-#  - name: debian-8.1
-#    run_list: apt::default
-#    driver_config:
-#      image: dictanova/docker-debian-kitchen:jessie
-#  - name: fedora-21
-#    driver_config:
-#      image: quay.io/getpantheon/fedora-test-kitchen:21
+  - name: centos-7.1
+    driver_config:
+      image: robertnorthard/centos7-systemd
+      run_command: /usr/sbin/init
+      privileged: true
+  - name: debian-7.8
+    run_list: apt::default
+  - name: debian-8.1
+    run_list: apt::default
+    driver_config:
+      image: dictanova/docker-debian-kitchen:jessie
+      privileged: true
+  - name: fedora-21
+    driver_config:
+      image: quay.io/getpantheon/fedora-test-kitchen:21
+      run_command: /usr/sbin/init
+      privileged: true
   - name: ubuntu-12.04
     run_list: apt::default
     driver_config:
